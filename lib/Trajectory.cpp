@@ -20,10 +20,7 @@ double Trajectory::getLength() const noexcept {
 
 	double totalLength{ 0 };
 
-	auto lastIter = path_.cbegin();
-	auto iter = std::next(lastIter);
-
-	for (; iter != path_.cend(); ++iter) {
+	for (auto lastIter = path_.cbegin(), iter = std::next(lastIter); iter != path_.cend(); ++iter) {
 		totalLength += std::hypot(iter->x - lastIter->x, iter->y - lastIter->y);
 		lastIter = iter;
 	}
