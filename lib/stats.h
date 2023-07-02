@@ -29,7 +29,7 @@ namespace stats {
 			//Search the element --topList.cend() -- constant time (cend is constant and 1 move up)
 			//map::erase complexitiy : Amortized constant
 			if (topList.size() > outputSize) {
-				topList.erase(--topList.cend());
+				topList.erase(std::prev(topList.cend()));
 			}
 		}
 
