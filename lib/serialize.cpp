@@ -69,7 +69,7 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& ts) {
 	return in;
 }
 
-TrajectoryStorage Load(const std::string& filename) {
+TrajectoryStorage load(const std::string& filename) {
 	TrajectoryStorage storage;
 	
 	std::ifstream istrm(filename, std::ios::binary);
@@ -91,7 +91,7 @@ TrajectoryStorage Load(const std::string& filename) {
 	return storage;
 }
 
-TrajectoryStorage LoadDb(const std::string& path) {
+TrajectoryStorage loadDB(const std::string& path) {
 	namespace fs = std::filesystem;
 
 	try {
@@ -104,7 +104,7 @@ TrajectoryStorage LoadDb(const std::string& path) {
 		}
 
 		if (fs::is_regular_file(p)) {
-			return Load(p.string());
+			return load(p.string());
 		}
 
 		for (const auto& file : fs::directory_iterator(path)) {
@@ -112,7 +112,7 @@ TrajectoryStorage LoadDb(const std::string& path) {
 				continue;
 			}
 
-			auto storage = Load(file.path().string());
+			auto storage = load(file.path().string());
 			if (!storage.empty()) {
 				std::move(storage.begin(), storage.end(), std::back_inserter(db));
 			}

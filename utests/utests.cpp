@@ -92,7 +92,7 @@ TEST_CASE("find 2 closest trajectories")
 	TrajectoryStorage ts;
 	os >> ts;
 
-	auto view = stats::TopMatches(tr, ts, [](auto& t){ return t.length(); }, 2);
+	auto view = stats::topMatches(tr, ts, [](auto& t){ return t.length(); }, 2);
 	
 	REQUIRE(view.size() == 2);
 	
@@ -102,7 +102,7 @@ TEST_CASE("find 2 closest trajectories")
 	CHECK(std::round(view[1].first) == 4);
 	CHECK(view[1].second->path().size() == 3);
 
-	view = stats::TopMatches(tr, ts, [](auto& t) { return t.speed(); }, 2);
+	view = stats::topMatches(tr, ts, [](auto& t) { return t.speed(); }, 2);
 	REQUIRE(view.size() == 2);
 
 	CHECK(std::round(view[0].first*10) == 4); //~0.4

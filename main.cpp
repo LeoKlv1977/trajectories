@@ -32,14 +32,14 @@ int main(int argc, const char** argv)
 	}
 
 	const std::string refFileName = argv[3];
-	auto refs = Load(refFileName);
+	auto refs = load(refFileName);
 	if (refs.empty()) {
 		std::cerr << "ref file " << refFileName << " is empty or corrupted";
 		return 1;
 	}
 
 	const std::string dbFileName = argv[2];
-	auto db = LoadDb(dbFileName);
+	auto db = loadDB(dbFileName);
 	if (db.empty()) {
 		std::cerr << "db '" << dbFileName << "' is empty or corrupted";
 		return 1;
@@ -56,7 +56,7 @@ int main(int argc, const char** argv)
 		f = [](const Trajectory& t) { return t.speed(); };
 	}
 
-	auto view = stats::TopMatches(ref, db, f, NEAREST_GROUP_SIZE);
+	auto view = stats::topMatches(ref, db, f, NEAREST_GROUP_SIZE);
 
 	auto nicePrint = [](const path_t& p) {
 		for (const auto& e : p) {

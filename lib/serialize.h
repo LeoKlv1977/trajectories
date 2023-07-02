@@ -14,5 +14,5 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& t);
 
 std::ostream& operator << (std::ostream& out, const path_t& p);
 
-TrajectoryStorage Load(const std::string& filename);
-TrajectoryStorage LoadDb(const std::string& path);
+TrajectoryStorage load(const std::string& filename);
+TrajectoryStorage loadDB(const std::string& path);

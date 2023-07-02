@@ -14,7 +14,7 @@ namespace stats {
 	//log(outputSize) comes from the fact that each topList.insert() is log(outputSize)
 
 	template <typename F>
-	auto TopMatches(const Trajectory& refer, const TrajectoryStorage& storage, F metrics, unsigned outputSize) {
+	auto topMatches(const Trajectory& refer, const TrajectoryStorage& storage, F metrics, unsigned outputSize) {
 		const auto refererValue = metrics(refer);
 
 		using MType = std::decay_t<decltype(refererValue)>;
