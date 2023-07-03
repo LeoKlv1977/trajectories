@@ -58,7 +58,7 @@ int main(int argc, const char** argv)
 
 	auto view = stats::topMatches(ref, db, f, NEAREST_GROUP_SIZE);
 
-	auto nicePrint = [](const path_t& p) {
+	auto nicePrint = [](const TPointsPath& p) {
 		for (const auto& e : p) {
 			std::cout << "( " << e << " ) ";
 		}

@@ -11,7 +11,7 @@ struct TimePoint
 	int t{0};
 };
 
-using path_t = std::vector<TimePoint>;
+using TPointsPath = std::vector<TimePoint>;
 
 class Trajectory {
 	friend class TrajectoryBuilder;
@@ -49,12 +49,12 @@ public:
 		return length_;
 	}
 
-	const path_t& path() const noexcept {
+	const TPointsPath& path() const noexcept {
 		return path_;
 	}
 
 private:
-	explicit Trajectory(path_t&& p);	
+	explicit Trajectory(TPointsPath&& p);
 
 	double getLength() const noexcept;
 	int getTotalTime() const noexcept;
@@ -65,7 +65,7 @@ private:
 	int totalTime_{0};
 
 	//Sorted array by Time (t)
-	path_t path_;
+	TPointsPath path_;
 };
 
 class TrajectoryBuilder {
@@ -84,7 +84,7 @@ public:
 	Trajectory Make();
 
 private:
-	path_t path_;
+	TPointsPath path_;
 };
 
 using TrajectoryStorage = std::vector<Trajectory>;

@@ -20,7 +20,7 @@ std::ostream& operator << (std::ostream& out, const TimePoint& tp) {
 	return out;
 }
 
-std::ostream& operator << (std::ostream& out, const path_t& p) {
+std::ostream& operator << (std::ostream& out, const TPointsPath& p) {
 	out << p.size() << " ";
 
 	for (const auto& e : p) {

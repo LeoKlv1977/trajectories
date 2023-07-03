@@ -5,7 +5,7 @@
 #include <cmath>
 
 
-Trajectory::Trajectory(path_t&& p)
+Trajectory::Trajectory(TPointsPath&& p)
 	: path_{ std::move(p) }
 {
 	totalTime_ = getTotalTime();

@@ -6,57 +6,43 @@
 
 #include <sstream>
 
-TEST_CASE("trajectory with equal times is invalid") 
-{
+static Trajectory Load(const TPointsPath& p) {
 	std::stringstream os;
-	os << path_t{{0,1,3}, {5,7,3}, {15,17,3} };
+	os << p;
 
 	Trajectory t;
 	os >> t;
 
+	return t;
+}
+
+TEST_CASE("trajectory with equal times is invalid") 
+{
+	Trajectory t = Load({{0,1,3}, {5,7,3}, {15,17,3}});
 	CHECK(!t.valid());
 }
 
 TEST_CASE("trajectory with one node is invalid")
 {
-	std::stringstream os;
-	os << path_t{ {0,1,3} };
-
-	Trajectory t;
-	os >> t;
-
+	Trajectory t = Load({ {0,1,3} });
 	CHECK(!t.valid());
 }
 
 TEST_CASE("trajectory with 0 nodes is invalid")
 {
-	std::stringstream os;
-	os << path_t{ {0,1,3} };
-
 	Trajectory t;
-	os >> t;
-
 	CHECK(!t.valid());
 }
 
 TEST_CASE("trajectory is sorted by time")
 {
-	std::stringstream os;
-	os << path_t{ {0,1,10}, {5,7,0} };
-
-	Trajectory t;
-	os >> t;
-
+	Trajectory t = Load({ {0,1,10}, {5,7,0} });
 	CHECK(t.valid());
 }
 
 TEST_CASE("trajectory length with 2 nodes")
 {
-	std::stringstream os;
-	os << path_t{ {0,1,1}, {3,5,3} };
-
-	Trajectory t;
-	os >> t;
+	Trajectory t = Load({ {0,1,1}, {3,5,3} });
 
 	CHECK(t.length() == 5);
 	CHECK(t.speed() == 2.5);
@@ -64,11 +50,7 @@ TEST_CASE("trajectory length with 2 nodes")
 
 TEST_CASE("trajectory metrics with 3 nodes")
 {
-	std::stringstream os;
-	os << path_t{ {0,1,1}, {3,5,3}, {6,9,5} };
-
-	Trajectory t;
-	os >> t;
+	Trajectory t = Load({ {0,1,1}, {3,5,3}, {6,9,5} } );
 
 	CHECK(t.length() == 10);
 	CHECK(t.speed() == 2.5);
@@ -76,38 +58,33 @@ TEST_CASE("trajectory metrics with 3 nodes")
 
 TEST_CASE("find 2 closest trajectories")
 {
-	std::stringstream osr;
-	auto ref = path_t{ {0,1,1}, {3,6,3} };//5.8 and 2.9
-	osr << ref;
-
-	Trajectory tr;
-	osr >> tr;
-
-	std::stringstream os;
-	os << 3 << " ";
-	os << path_t{ {0,1,1}, {3,5,3}, {6,9,5}, {9,13,7} };//15 and 2.5
-	os << path_t{ {0,1,1}, {3,5,3}, {6,9,5} };//10 and 2.5
-	os << path_t{ {0,1,1}, {3,5,21} };//5 and 0.25
+	Trajectory tr = Load({ {0,1,1}, {3,6,3} });//5.8 and 2.9
 
 	TrajectoryStorage ts;
-	os >> ts;
+	ts.push_back( Load({ {0,1,1}, {3,5,3}, {6,9,5}, {9,13,7} } ) ); //15 and 2.5
+	ts.push_back( Load({ {0,1,1}, {3,5,3}, {6,9,5} } ) );//10 and 2.5
+	ts.push_back( Load({ {0,1,1}, {3,5,21} }));//5 and 0.25
 
-	auto view = stats::topMatches(tr, ts, [](auto& t){ return t.length(); }, 2);
+	SUBCASE("use length as metrics") {
+		auto view = stats::topMatches(tr, ts, [](auto& t){ return t.length(); }, 2);
 	
-	REQUIRE(view.size() == 2);
+		REQUIRE(view.size() == 2);
 	
-	CHECK(std::round(view[0].first) == 1);
-	CHECK( view[0].second->path().size() == 2);
+		CHECK(std::round(view[0].first) == 1);
+		CHECK( view[0].second->path().size() == 2);
 
-	CHECK(std::round(view[1].first) == 4);
-	CHECK(view[1].second->path().size() == 3);
+		CHECK(std::round(view[1].first) == 4);
+		CHECK(view[1].second->path().size() == 3);
+	}
 
-	view = stats::topMatches(tr, ts, [](auto& t) { return t.speed(); }, 2);
-	REQUIRE(view.size() == 2);
+	SUBCASE("use speed as metrics, case with 2 equal metrics distances") {
+		auto view = stats::topMatches(tr, ts, [](auto& t) { return t.speed(); }, 2);
+		REQUIRE(view.size() == 2);
 
-	CHECK(std::round(view[0].first*10) == 4); //~0.4
-	CHECK(view[0].second->path().size() == 4);
+		CHECK(std::round(view[0].first*10) == 4); //~0.4
+		CHECK(view[0].second->path().size() == 4);
 
-	CHECK(std::round(view[1].first*10) == 4);
-	CHECK(view[1].second->path().size() == 3);
+		CHECK(std::round(view[1].first*10) == 4);
+		CHECK(view[1].second->path().size() == 3);
+	}
 }

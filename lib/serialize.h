@@ -12,7 +12,7 @@ std::ostream& operator << (std::ostream& out, const Trajectory& t);
 
 std::istream& operator >> (std::istream& in, TrajectoryStorage& t);
 
-std::ostream& operator << (std::ostream& out, const path_t& p);
+std::ostream& operator << (std::ostream& out, const TPointsPath& p);
 
 TrajectoryStorage load(const std::string& filename);
 TrajectoryStorage loadDB(const std::string& path);
