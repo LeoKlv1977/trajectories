@@ -128,7 +128,6 @@ TrajectoryStorage loadDB(const std::string& path, std::string* error) {
 	catch (const fs::filesystem_error& err)
 	{
 		std::cerr << "unexpected error: " << err.what() << std::endl;
-		db.clear();
 	}
 
 	if (db.empty() && error) {
