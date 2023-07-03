@@ -11,7 +11,7 @@
 #include <map>
 #include <cmath>
 
-#include "Trajectory.h"
+#include "trajectory.h"
 
 namespace stats {
 	template <class M>
