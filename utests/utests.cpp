@@ -1,13 +1,15 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+#include "doctest.h" //utests inline header
+
+#include <sstream>
+
+#include <array>
+#include <deque>
+#include <list>
+#include <set>
 
 #include "serialize.h"
 #include "stats.h"
-
-#include <sstream>
-#include <array>
-#include <deque>
-
 
 static Trajectory Load(const TPointsPath& p) {
 	std::stringstream os;
