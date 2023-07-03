@@ -68,13 +68,12 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& ts) {
 	return in;
 }
 
-TrajectoryStorage load(const std::string& filename) {
+std::pair<TrajectoryStorage, std::string> load(const std::string& filename) {
 	TrajectoryStorage storage;
 	
 	std::ifstream istrm(filename, std::ios::binary);
 	if (!istrm.is_open()) {
-		std::cerr << "warning: " << std::quoted(filename) << " is not opened\n";
-		return storage;
+		return { std::move(storage), "not opened" };
 	}
 
 	try {
@@ -82,51 +81,48 @@ TrajectoryStorage load(const std::string& filename) {
 		istrm >> storage;
 	}
 	catch (const std::ios_base::failure&) {
-		std::cerr << "warning: " << std::quoted(filename) << " is corrupted\n";
 		storage.clear();
+		return { std::move(storage), "corrupted" };
 	}
 
-	return storage;
+	return { std::move(storage), ""};
 }
 
-TrajectoryStorage loadDB(const std::string& path) {
+std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path) {
 	namespace fs = std::filesystem;
+	
+	TrajectoryStorage db;
 
 	try {
 
 		const fs::path p{path};
 
-		TrajectoryStorage db;
 		if (!fs::exists(p)) {
-			std::cerr << "error: db directory " << std::quoted(p.string()) << " does not exist" << std::endl;
-			return db;
+			return { std::move(db), "does not exist"};
 		}
-
-		if (fs::is_regular_file(p)) {
+		else if (fs::is_regular_file(p)) {
 			return load(p.string());
 		}
+		else {
+			for (const auto& file : fs::directory_iterator(path)) {
+				if (file.path().extension() != ".dat") {
+					continue;
+				}
 
-		for (const auto& file : fs::directory_iterator(path)) {
-			if (file.path().extension() != ".dat") {
-				continue;
-			}
-
-			auto storage = load(file.path().string());
-			if (!storage.empty()) {
-				std::move(storage.begin(), storage.end(), std::back_inserter(db));
+				auto r = load(file.path().string());
+			
+				auto& storage = r.first;
+				if (!storage.empty()) {
+					std::move(storage.begin(), storage.end(), std::back_inserter(db));
+				}
 			}
 		}
-
-		if (db.empty()) {
-			std::cerr << "error: db directory " << std::quoted(p.string()) << " is empty" << std::endl;
-		}
-
-		return db;
 	}
 	catch (const fs::filesystem_error& err)
 	{
 		std::cerr << "unexpected error: " << err.what() << std::endl;
+		db.clear();
 	}
 
-	return {};
+	return { std::move(db), "" };
 }

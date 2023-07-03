@@ -44,21 +44,27 @@ int main(int argc, const char** argv)
 	}
 
 	const std::string refFileName = argv[3];
-	auto refs = load(refFileName);
-	if (refs.empty()) {
-		std::cerr << "error: reference file " << std::quoted(refFileName) << " is not loaded" << std::endl;
+	auto loadRefResult = load(refFileName);
+	if (loadRefResult.first.empty()) {
+		std::cerr << "error: reference file "
+				  << std::quoted(refFileName) << " is " << loadRefResult.second << std::endl;
 		return 1;
 	}
 
 	const std::string dbFileName = argv[2];
-	auto db = loadDB(dbFileName);
+	auto loadDbResult = loadDB(dbFileName);
+	const auto& db = loadDbResult.first;
+
 	if (db.empty()) {
+		std::cerr << "error: db directory " 
+				  << std::quoted(dbFileName) << " is "
+			      << (loadDbResult.second.empty() ? "empty" : loadDbResult.second) << std::endl;
 		return 1;
 	}
 
 	//Metrics function's signature:
 	std::function<double (const Trajectory& t)> f;
-	const auto& ref = refs.at(0);
+	const auto& ref = loadRefResult.first.at(0);
 
 	if (cmd == "-l") {
 		f = [](const Trajectory& t) { return t.length(); };

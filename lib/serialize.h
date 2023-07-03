@@ -19,7 +19,7 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& t);
 std::ostream& operator << (std::ostream& out, const TPointsPath& p);
 
 //Load trajectories from file set in <filename>
-TrajectoryStorage load(const std::string& filename);
+std::pair<TrajectoryStorage, std::string> load(const std::string& filename);
 
 //Load trajectories from file or directory set in <path>
-TrajectoryStorage loadDB(const std::string& path);
+std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path);
