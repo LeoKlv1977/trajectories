@@ -61,4 +61,7 @@ error: reference file "data/corrupted/test_trajectory1.dat" is corrupted
 
 [.]$ bin/tracker -s data data/corrupted/test_trajectory123.dat
 error: reference file "data/corrupted/test_trajectory123.dat" is not opened
+
+[.]$ bin/tracker -s build data/test_trajectory.dat
+error: db directory "build" is empty
 ```
