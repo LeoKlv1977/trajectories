@@ -3,7 +3,7 @@
 // where N - number of trajectories
 // log(outputSize) comes from the fact that each topList.insert() is log(outputSize)
 //
-// Function topMatches can be easily extended to be used with different types of containers and metrics
+// Function topMatches can be used with any types of base elements and metrics
 // =====================================================================================================
 
 #pragma once
@@ -14,16 +14,16 @@
 #include "trajectory.h"
 
 namespace stats {
-	template <class M>
-	using TrajectoryView = std::vector<std::pair<M, const Trajectory*>>;
+	template <typename M, typename T>
+	using TopView = std::vector<std::pair<M, const T*>>;
 
-	template <typename F>
-	auto topMatches(const Trajectory& referer, const TrajectoryStorage& storage, F metrics, unsigned outputSize) {
+	template <typename T, typename F>
+	auto topMatches(const T& referer, const std::vector<T>& storage, F metrics, unsigned outputSize) {
 		const auto refererValue = metrics(referer);
 
 		using MType = std::decay_t<decltype(refererValue)>;
-		std::multimap<MType, const Trajectory*> topList;
-		TrajectoryView<MType> view;
+		std::multimap<MType, const T*> topList;
+		TopView<MType, T> view;
 
 		for (const auto& tr : storage) {
 			auto diffValue = metrics(tr) - refererValue;
