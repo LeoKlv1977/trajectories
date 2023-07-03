@@ -52,10 +52,10 @@ If input format of dat files is wrong or I/O errors occurs then you will see a c
 ```
 [onelink@nvmcent64v2 trajectories]$ bin/tracker -s data/corrupted data/test_trajectory.dat
 error: "data/corrupted/test_trajectory1.dat" is corrupted
-error: db 'data/corrupted' is not loaded
+error: db "data/corrupted" is not loaded
 ```
 
 ```
 [onelink@nvmcent64v2 trajectories]$ bin/tracker -s data/corrupted1 data/test_trajectory.dat
-error: db 'data/corrupted1' is not loaded
+error: db "data/corrupted1" is not loaded
 ```
