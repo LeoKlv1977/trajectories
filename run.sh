@@ -19,4 +19,6 @@ exe bin/tracker -s data data/corrupted/test_trajectory1.dat
 
 exe bin/tracker -s data data/corrupted/test_trajectory123.dat
 
+exe bin/tracker -s build data/test_trajectory.dat
+
 echo

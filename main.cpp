@@ -59,7 +59,7 @@ int main(int argc, const char** argv)
 	if (db.empty()) {
 		std::cerr << "error: db directory " 
 				  << std::quoted(dbFileName) << " "
-			      << (error.empty() ? "is empty" : error) << std::endl;
+			      << error << std::endl;
 		return 1;
 	}
 

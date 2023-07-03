@@ -73,8 +73,9 @@ TrajectoryStorage load(const std::string& filename, std::string* error) {
 	
 	std::ifstream istrm(filename, std::ios::binary);
 	if (!istrm.is_open()) {
-		if (error)
+		if (error) {
 			*error = "is not opened";
+		}
 
 		return storage;
 	}
@@ -86,8 +87,9 @@ TrajectoryStorage load(const std::string& filename, std::string* error) {
 	catch (const std::ios_base::failure&) {
 		storage.clear();
 
-		if (error)
+		if (error) {
 			*error = "is corrupted";
+		}
 	}
 
 	return storage;
@@ -103,8 +105,9 @@ TrajectoryStorage loadDB(const std::string& path, std::string* error) {
 		const fs::path p{path};
 
 		if (!fs::exists(p)) {
-			if (error)
+			if (error) {
 				*error = "does not exist";
+			}
 		}
 		else if (fs::is_regular_file(p)) {
 			return load(p.string(), error);
@@ -126,6 +129,10 @@ TrajectoryStorage loadDB(const std::string& path, std::string* error) {
 	{
 		std::cerr << "unexpected error: " << err.what() << std::endl;
 		db.clear();
+	}
+
+	if (db.empty() && error) {
+		*error = "is empty";
 	}
 
 	return db;
