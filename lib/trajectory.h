@@ -1,7 +1,15 @@
+// ==================================================================================
+// Class Trajectory is responsible for 
+// storing data and handling operations with trajectories
+// 
+// The only way to build a valid Trajectory is to use TrajectoryBuilder
+// TrajectoryBuilder's purpose is to create valid Trajectories and handle exceptions
+// ==================================================================================
+
 #pragma once
 
 #include <vector>
-#include <memory>
+#include <iostream>
 #include <cassert>
 
 struct TimePoint
@@ -13,6 +21,7 @@ struct TimePoint
 
 using TPointsPath = std::vector<TimePoint>;
 
+/*Trajectory class is movable only to exclude copies of std::vector*/
 class Trajectory {
 	friend class TrajectoryBuilder;
 	friend std::ostream& operator << (std::ostream& out, const Trajectory& t);
@@ -68,6 +77,7 @@ private:
 	TPointsPath path_;
 };
 
+/*TrajectoryBuilder is the only way to create a valid trajectory*/
 class TrajectoryBuilder {
 public:
 	explicit TrajectoryBuilder(unsigned length)

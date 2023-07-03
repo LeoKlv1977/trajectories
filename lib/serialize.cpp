@@ -1,9 +1,8 @@
-#include "serialize.h"
-
 #include <iostream>
 #include <fstream>
-
 #include <filesystem>
+
+#include "serialize.h"
 
 std::istream& operator >> (std::istream& in, TimePoint& tp)
 {

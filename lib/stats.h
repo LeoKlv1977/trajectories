@@ -1,21 +1,25 @@
-#pragma once
+// =====================================================================================================
+// Search complexity : O(N* log(outputSize))
+// where N - number of trajectories
+// log(outputSize) comes from the fact that each topList.insert() is log(outputSize)
+//
+// Function topMatches can be easily extended to be used with different types of containers and metrics
+// =====================================================================================================
 
-#include "Trajectory.h"
+#pragma once
 
 #include <map>
 #include <cmath>
+
+#include "Trajectory.h"
 
 namespace stats {
 	template <class M>
 	using TrajectoryView = std::vector<std::pair<M, const Trajectory*>>;
 
-	//Search complexity: O(N*log(outputSize)),
-	//where N - number of trajectories
-	//log(outputSize) comes from the fact that each topList.insert() is log(outputSize)
-
 	template <typename F>
-	auto topMatches(const Trajectory& refer, const TrajectoryStorage& storage, F metrics, unsigned outputSize) {
-		const auto refererValue = metrics(refer);
+	auto topMatches(const Trajectory& referer, const TrajectoryStorage& storage, F metrics, unsigned outputSize) {
+		const auto refererValue = metrics(referer);
 
 		using MType = std::decay_t<decltype(refererValue)>;
 		std::multimap<MType, const Trajectory*> topList;

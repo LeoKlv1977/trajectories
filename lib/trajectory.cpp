@@ -1,8 +1,7 @@
-#include "Trajectory.h"
-
-#include <stdexcept>
 #include <algorithm>
 #include <cmath>
+
+#include "trajectory.h"
 
 
 Trajectory::Trajectory(TPointsPath&& p)

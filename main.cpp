@@ -1,10 +1,9 @@
-#include "Trajectory.h"
-#include "serialize.h"
-#include "stats.h"
-
-#include <iostream>
 #include <filesystem>
 #include <functional>
+
+#include "trajectory.h"
+#include "serialize.h"
+#include "stats.h"
 
 constexpr unsigned NEAREST_GROUP_SIZE = 3;
 
@@ -81,4 +80,3 @@ int main(int argc, const char** argv)
 
 	return 0;
 }
-
