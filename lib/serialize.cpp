@@ -73,7 +73,7 @@ TrajectoryStorage load(const std::string& filename) {
 	
 	std::ifstream istrm(filename, std::ios::binary);
 	if (!istrm.is_open()) {
-		std::cerr << "error: " << std::quoted(filename) << " is not opened\n";
+		std::cerr << "warning: " << std::quoted(filename) << " is not opened\n";
 		return storage;
 	}
 
@@ -82,7 +82,7 @@ TrajectoryStorage load(const std::string& filename) {
 		istrm >> storage;
 	}
 	catch (const std::ios_base::failure&) {
-		std::cerr << "error: " << std::quoted(filename) << " is corrupted\n";
+		std::cerr << "warning: " << std::quoted(filename) << " is corrupted\n";
 		storage.clear();
 	}
 
@@ -125,7 +125,7 @@ TrajectoryStorage loadDB(const std::string& path) {
 	}
 	catch (const fs::filesystem_error& err)
 	{
-		std::cerr << err.what() << std::endl;
+		std::cerr << "unexpected error: " << err.what() << std::endl;
 	}
 
 	return {};
