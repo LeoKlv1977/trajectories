@@ -50,18 +50,15 @@ usage: tracker -l <db_file|db_directory> <ref_path>
 
 If input format of dat files is wrong or I/O errors occurs then you will see a corresponding message:
 ```
-[onelink@nvmcent64v2 trajectories]$ bin/tracker -s data/corrupted data/test_trajectory.dat
-warning: "data/corrupted/test_trajectory1.dat" is corrupted
-error: db directory "data/corrupted" is empty
-```
+[.]$ bin/tracker -l dataUnkonw data/test_trajectory.dat
+error: db directory "dataUnkonw" is does not exist
 
-```
-onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory1.dat
-warning: "data/corrupted/test_trajectory1.dat" is corrupted
-error: reference file "data/corrupted/test_trajectory1.dat" is not loaded
-```
-```
-[onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory123.dat
-warning: "data/corrupted/test_trajectory123.dat" is not opened
-error: reference file "data/corrupted/test_trajectory123.dat" is not loaded
+[.]$ bin/tracker -l data dataUnk/test_trajectory.dat
+error: reference file "dataUnk/test_trajectory.dat" is not opened
+
+[.]$ bin/tracker -s data data/corrupted/test_trajectory1.dat
+error: reference file "data/corrupted/test_trajectory1.dat" is corrupted
+
+[.]$ bin/tracker -s data data/corrupted/test_trajectory123.dat
+error: reference file "data/corrupted/test_trajectory123.dat" is not opened
 ```
