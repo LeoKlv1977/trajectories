@@ -7,11 +7,11 @@
 Trajectory::Trajectory(TPointsPath&& p)
 	: path_{ std::move(p) }
 {
-	totalTime_ = getTotalTime();
+	totalTime_ = getTotalTime(path_);
 }
 
 bool Trajectory::valid() const noexcept {
-	return path_.size() >= MINIMUN_SIZE && totalTime_ > 0;
+	return path_.size() >= MINIMUN_SIZE;
 }
 
 double Trajectory::getLength() const noexcept {
@@ -27,8 +27,8 @@ double Trajectory::getLength() const noexcept {
 	return totalLength;
 }
 
-int Trajectory::getTotalTime() const noexcept {
-	return path_.crbegin()->t - path_.cbegin()->t;
+int Trajectory::getTotalTime(const TPointsPath& p) noexcept {
+	return p.crbegin()->t - p.cbegin()->t;
 }
 
 Trajectory TrajectoryBuilder::Make() {
@@ -42,6 +42,11 @@ Trajectory TrajectoryBuilder::Make() {
 			return tp1.t < tp2.t;
 		}
 	);
+
+	auto time = Trajectory::getTotalTime(path_);
+	if (time == 0) {
+		return Trajectory{};
+	}
 
 	return Trajectory(std::move(path_));
 }

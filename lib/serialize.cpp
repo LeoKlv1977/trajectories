@@ -52,11 +52,11 @@ std::istream& operator >> (std::istream& in, Trajectory& t) {
 
 std::istream& operator >> (std::istream& in, TrajectoryStorage& ts) {
 	//Read the number of trajectories
-	unsigned numOfTraj{ 0 };
-	in >> numOfTraj;
-	ts.reserve(numOfTraj);
+	unsigned ntraj{ 0 };
+	in >> ntraj;
+	ts.reserve(ntraj);
 
-	for (unsigned i = 0; i < numOfTraj; ++i) {
+	for (unsigned i = 0; i < ntraj; ++i) {
 		Trajectory t;
 		in >> t;
 

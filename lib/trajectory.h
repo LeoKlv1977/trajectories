@@ -66,7 +66,8 @@ private:
 	explicit Trajectory(TPointsPath&& p);
 
 	double getLength() const noexcept;
-	int getTotalTime() const noexcept;
+	
+	static int getTotalTime(const TPointsPath& p) noexcept;
 
 	mutable double speed_{ INITIAL };
 	mutable double length_{ INITIAL };

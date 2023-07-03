@@ -15,8 +15,8 @@ The project is crossplatform, requires C++ 17 or higher. Build system is Cmake. 
 Algorithms are covered by unitests, that are implemented using doctest project. This is not what I use in real life, but I liked the idea to build tests using header file only.
 
 The key class is Trajectory, where path of timepoints sorted by time values is stored. It can also calculate metrics of the path: speed, length.
-Metrics are calculated once, then they cached. Note that path is constant, so once created Trajectory can not be modified. 
-Creation of new valid not empty Trajectories can be done only by TrajectoryBuilder. 
+Metrics are calculated once, then they cached. Note that in fact path is constant, so once created path can not be modified and so its metrics.
+Creation of new valid not empty Trajectories can be done only by TrajectoryBuilder. Trajectory can be either valid or empty.
 
 Function that searches closes matches is located in stats.h
 stats::topMatches finds M closest entries among N entries in container. Container is a generic type. So, many STL containers like vector, list, set, deque, array can be used.

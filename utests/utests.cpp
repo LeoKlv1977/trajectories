@@ -21,6 +21,11 @@ static Trajectory Load(const TPointsPath& p) {
 	return t;
 }
 
+TEST_CASE("empty trajectory is not valid") {
+	Trajectory t;
+	CHECK(!t.valid());
+}
+
 TEST_CASE("trajectory with equal times is invalid") {
 	Trajectory t = Load({{0,1,3}, {5,7,3}, {15,17,3}});
 	CHECK(!t.valid());
@@ -36,16 +41,16 @@ TEST_CASE("trajectory with 0 nodes is invalid") {
 	CHECK(!t.valid());
 }
 
-TEST_CASE("trajectory is sorted by time") {
+TEST_CASE("trajectory is with 2 nodes is valid") {
 	Trajectory t = Load({ {0,1,10}, {5,7,0} });
 	CHECK(t.valid());
 }
 
-TEST_CASE("trajectory length with 2 nodes") {
-	Trajectory t = Load({ {0,1,1}, {3,5,3} });
+TEST_CASE("trajectory length and speed with 2 nodes") {
+	Trajectory t = Load({ {0,1,11}, {3,5,1} });
 
 	CHECK(t.length() == 5);
-	CHECK(t.speed() == 2.5);
+	CHECK(t.speed() == 0.5);
 }
 
 TEST_CASE("trajectory metrics with 3 nodes") {
