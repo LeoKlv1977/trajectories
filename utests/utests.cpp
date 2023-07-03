@@ -16,48 +16,41 @@ static Trajectory Load(const TPointsPath& p) {
 	return t;
 }
 
-TEST_CASE("trajectory with equal times is invalid") 
-{
+TEST_CASE("trajectory with equal times is invalid") {
 	Trajectory t = Load({{0,1,3}, {5,7,3}, {15,17,3}});
 	CHECK(!t.valid());
 }
 
-TEST_CASE("trajectory with one node is invalid")
-{
+TEST_CASE("trajectory with one node is invalid") {
 	Trajectory t = Load({ {0,1,3} });
 	CHECK(!t.valid());
 }
 
-TEST_CASE("trajectory with 0 nodes is invalid")
-{
+TEST_CASE("trajectory with 0 nodes is invalid") {
 	Trajectory t;
 	CHECK(!t.valid());
 }
 
-TEST_CASE("trajectory is sorted by time")
-{
+TEST_CASE("trajectory is sorted by time") {
 	Trajectory t = Load({ {0,1,10}, {5,7,0} });
 	CHECK(t.valid());
 }
 
-TEST_CASE("trajectory length with 2 nodes")
-{
+TEST_CASE("trajectory length with 2 nodes") {
 	Trajectory t = Load({ {0,1,1}, {3,5,3} });
 
 	CHECK(t.length() == 5);
 	CHECK(t.speed() == 2.5);
 }
 
-TEST_CASE("trajectory metrics with 3 nodes")
-{
+TEST_CASE("trajectory metrics with 3 nodes") {
 	Trajectory t = Load({ {0,1,1}, {3,5,3}, {6,9,5} } );
 
 	CHECK(t.length() == 10);
 	CHECK(t.speed() == 2.5);
 }
 
-TEST_CASE("find 2 closest trajectories")
-{
+TEST_CASE("find 2 closest trajectories") {
 	Trajectory tr = Load({ {0,1,1}, {3,6,3} });//5.8 and 2.9
 
 	TrajectoryStorage ts;
