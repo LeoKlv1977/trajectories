@@ -98,6 +98,7 @@ TrajectoryStorage loadDB(const std::string& path) {
 
 		TrajectoryStorage db;
 		if (!fs::exists(p)) {
+			std::cerr << "error: db directory " << std::quoted(p.string()) << " does not exist" << std::endl;
 			return db;
 		}
 
@@ -114,6 +115,10 @@ TrajectoryStorage loadDB(const std::string& path) {
 			if (!storage.empty()) {
 				std::move(storage.begin(), storage.end(), std::back_inserter(db));
 			}
+		}
+
+		if (db.empty()) {
+			std::cerr << "error: db directory " << std::quoted(p.string()) << " is empty" << std::endl;
 		}
 
 		return db;
