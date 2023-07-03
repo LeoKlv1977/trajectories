@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
 	auto loadRefResult = load(refFileName);
 	if (loadRefResult.first.empty()) {
 		std::cerr << "error: reference file "
-				  << std::quoted(refFileName) << " is " << loadRefResult.second << std::endl;
+				  << std::quoted(refFileName) << " " << loadRefResult.second << std::endl;
 		return 1;
 	}
 
@@ -57,8 +57,8 @@ int main(int argc, const char** argv)
 
 	if (db.empty()) {
 		std::cerr << "error: db directory " 
-				  << std::quoted(dbFileName) << " is "
-			      << (loadDbResult.second.empty() ? "empty" : loadDbResult.second) << std::endl;
+				  << std::quoted(dbFileName) << " "
+			      << (loadDbResult.second.empty() ? "is empty" : loadDbResult.second) << std::endl;
 		return 1;
 	}
 

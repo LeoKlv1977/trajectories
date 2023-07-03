@@ -73,7 +73,7 @@ std::pair<TrajectoryStorage, std::string> load(const std::string& filename) {
 	
 	std::ifstream istrm(filename, std::ios::binary);
 	if (!istrm.is_open()) {
-		return { std::move(storage), "not opened" };
+		return { std::move(storage), "is not opened" };
 	}
 
 	try {
@@ -82,7 +82,7 @@ std::pair<TrajectoryStorage, std::string> load(const std::string& filename) {
 	}
 	catch (const std::ios_base::failure&) {
 		storage.clear();
-		return { std::move(storage), "corrupted" };
+		return { std::move(storage), "is corrupted" };
 	}
 
 	return { std::move(storage), ""};

@@ -51,7 +51,7 @@ usage: tracker -l <db_file|db_directory> <ref_path>
 If input format of dat files is wrong or I/O errors occurs then you will see a corresponding message:
 ```
 [.]$ bin/tracker -l dataUnkonw data/test_trajectory.dat
-error: db directory "dataUnkonw" is does not exist
+error: db directory "dataUnkonw" does not exist
 
 [.]$ bin/tracker -l data dataUnk/test_trajectory.dat
 error: reference file "dataUnk/test_trajectory.dat" is not opened
