@@ -68,12 +68,15 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& ts) {
 	return in;
 }
 
-std::pair<TrajectoryStorage, std::string> load(const std::string& filename) {
+TrajectoryStorage load(const std::string& filename, std::string* error) {
 	TrajectoryStorage storage;
 	
 	std::ifstream istrm(filename, std::ios::binary);
 	if (!istrm.is_open()) {
-		return { std::move(storage), "is not opened" };
+		if (error)
+			*error = "is not opened";
+
+		return storage;
 	}
 
 	try {
@@ -82,13 +85,15 @@ std::pair<TrajectoryStorage, std::string> load(const std::string& filename) {
 	}
 	catch (const std::ios_base::failure&) {
 		storage.clear();
-		return { std::move(storage), "is corrupted" };
+
+		if (error)
+			*error = "is corrupted";
 	}
 
-	return { std::move(storage), ""};
+	return storage;
 }
 
-std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path) {
+TrajectoryStorage loadDB(const std::string& path, std::string* error) {
 	namespace fs = std::filesystem;
 	
 	TrajectoryStorage db;
@@ -98,10 +103,11 @@ std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path) {
 		const fs::path p{path};
 
 		if (!fs::exists(p)) {
-			return { std::move(db), "does not exist"};
+			if (error)
+				*error = "does not exist";
 		}
 		else if (fs::is_regular_file(p)) {
-			return load(p.string());
+			return load(p.string(), error);
 		}
 		else {
 			for (const auto& file : fs::directory_iterator(path)) {
@@ -109,9 +115,7 @@ std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path) {
 					continue;
 				}
 
-				auto r = load(file.path().string());
-			
-				auto& storage = r.first;
+				auto storage = load(file.path().string());
 				if (!storage.empty()) {
 					std::move(storage.begin(), storage.end(), std::back_inserter(db));
 				}
@@ -124,5 +128,5 @@ std::pair<TrajectoryStorage, std::string> loadDB(const std::string& path) {
 		db.clear();
 	}
 
-	return { std::move(db), "" };
+	return db;
 }
