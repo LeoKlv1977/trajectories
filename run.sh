@@ -1,13 +1,17 @@
-bin/tracker -l data data/test_trajectory.dat
+#!/bin/bash
+
+exe() { echo "[.]\$ $@" ; "$@" ; }
+
+exe bin/tracker -l data data/test_trajectory.dat
 echo "--------------------------------------------"
-bin/tracker -s data data/test_trajectory.dat
+exe bin/tracker -s data data/test_trajectory.dat
 echo "--------------------------------------------"
 
 echo "BAD INPUT DATA EXAMPLES:"
 echo
-bin/tracker -x data data/test_trajectory.dat
+exe bin/tracker -x data data/test_trajectory.dat
 echo
-bin/tracker -l dataUnkonw data/test_trajectory.dat
+exe bin/tracker -l dataUnkonw data/test_trajectory.dat
 echo
-bin/tracker -l data dataUnk/test_trajectory.dat
+exe bin/tracker -l data dataUnk/test_trajectory.dat
 echo
