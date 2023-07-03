@@ -53,7 +53,7 @@ int main(int argc, const char** argv)
 	const std::string dbFileName = argv[2];
 	auto db = loadDB(dbFileName);
 	if (db.empty()) {
-		std::cerr << "error: db " << std::quoted(refFileName) << " is not loaded" << std::endl;
+		std::cerr << "error: db " << std::quoted(dbFileName) << " is not loaded" << std::endl;
 		return 1;
 	}
 
