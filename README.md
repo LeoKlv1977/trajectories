@@ -51,17 +51,17 @@ usage: tracker -l <db_file|db_directory> <ref_path>
 If input format of dat files is wrong or I/O errors occurs then you will see a corresponding message:
 ```
 [onelink@nvmcent64v2 trajectories]$ bin/tracker -s data/corrupted data/test_trajectory.dat
-error: "data/corrupted/test_trajectory1.dat" is corrupted
+warning: "data/corrupted/test_trajectory1.dat" is corrupted
 error: db directory "data/corrupted" is empty
 ```
 
 ```
 onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory1.dat
-error: "data/corrupted/test_trajectory1.dat" is corrupted
+warning: "data/corrupted/test_trajectory1.dat" is corrupted
 error: reference file "data/corrupted/test_trajectory1.dat" is not loaded
 ```
 ```
 [onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory123.dat
-error: "data/corrupted/test_trajectory123.dat" is not opened
+warning: "data/corrupted/test_trajectory123.dat" is not opened
 error: reference file "data/corrupted/test_trajectory123.dat" is not loaded
 ```
