@@ -5,6 +5,9 @@
 #include "stats.h"
 
 #include <sstream>
+#include <array>
+#include <deque>
+
 
 static Trajectory Load(const TPointsPath& p) {
 	std::stringstream os;
@@ -80,4 +83,52 @@ TEST_CASE("find 2 closest trajectories") {
 		CHECK(std::round(view[1].first*10) == 4);
 		CHECK(view[1].second->path().size() == 3);
 	}
+}
+
+TEST_CASE("test find in array with int metrics") {
+	int x = 5;
+
+	std::array<int, 5> list = {1, 7, 8, 10, 45};
+	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
+
+	REQUIRE(view.size() == 2);
+
+	CHECK(*view[0].second == 7);
+	CHECK(*view[1].second == 8);
+}
+
+TEST_CASE("test find in set with int metrics") {
+	int x = 5;
+
+	std::set<int> list = { 1, 7, 8, 10, 45 };
+	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
+
+	REQUIRE(view.size() == 2);
+
+	CHECK(*view[0].second == 7);
+	CHECK(*view[1].second == 8);
+}
+
+TEST_CASE("test find in deque with int metrics") {
+	int x = 5;
+
+	std::deque<int> list = { 1, 7, 8, 10, 45 };
+	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
+
+	REQUIRE(view.size() == 2);
+
+	CHECK(*view[0].second == 7);
+	CHECK(*view[1].second == 8);
+}
+
+TEST_CASE("test find in list with int metrics") {
+	int x = 5;
+
+	std::list<int> list = { 1, 7, 8, 10, 45 };
+	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
+
+	REQUIRE(view.size() == 2);
+
+	CHECK(*view[0].second == 7);
+	CHECK(*view[1].second == 8);
 }
