@@ -56,6 +56,12 @@ error: db "data/corrupted" is not loaded
 ```
 
 ```
-[onelink@nvmcent64v2 trajectories]$ bin/tracker -s data/corrupted1 data/test_trajectory.dat
-error: db "data/corrupted1" is not loaded
+onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory1.dat
+error: "data/corrupted/test_trajectory1.dat" is corrupted
+error: reference file "data/corrupted/test_trajectory1.dat" is not loaded
+```
+```
+[onelink@nvmcent64v2 trajectories]$ bin/tracker -s data data/corrupted/test_trajectory123.dat
+error: "data/corrupted/test_trajectory123.dat" is not opened
+error: reference file "data/corrupted/test_trajectory123.dat" is not loaded
 ```
