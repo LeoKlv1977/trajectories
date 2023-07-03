@@ -9,10 +9,15 @@ constexpr unsigned NEAREST_GROUP_SIZE = 3;
 
 int main(int argc, const char** argv)
 {	
-	if (argc != 4) {
-		std::cerr << "wrong number of input arguments, expected:\n";
-		std::cerr << std::filesystem::path{argv[0]}.filename().string()
-				  << " <-l|-s> <db_file|db_directory> <ref_path>" << std::endl;
+	if (argc == 0) {
+		//Unexpected and hardly possible case
+		return 1;
+	}
+	
+	const auto binaryName = std::filesystem::path{ argv[0] }.filename().string();
+	if (argc == 1) {
+		std::cerr << binaryName << " finds 3 closest trajectories.\n"
+				  << "Usage: " << binaryName << " <-l|-s> <db_file|db_directory> <ref_path>" << std::endl;
 		return 1;
 	}
 
@@ -30,17 +35,25 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
+	if (argc != 4) {
+		std::cerr << "wrong number of arguments\n" 
+			      << "usage: " << binaryName << " " << cmd << " <db_file|db_directory> <ref_path>"
+			      << std::endl;
+
+		return 1;
+	}
+
 	const std::string refFileName = argv[3];
 	auto refs = load(refFileName);
 	if (refs.empty()) {
-		std::cerr << "reference file " << refFileName << " is empty or corrupted" << std::endl;
+		std::cerr << "error: reference file " << std::quoted(refFileName) << " is not loaded" << std::endl;
 		return 1;
 	}
 
 	const std::string dbFileName = argv[2];
 	auto db = loadDB(dbFileName);
 	if (db.empty()) {
-		std::cerr << "db '" << dbFileName << "' is empty or corrupted" << std::endl;
+		std::cerr << "error: db " << std::quoted(refFileName) << " is not loaded" << std::endl;
 		return 1;
 	}
 

@@ -71,19 +71,19 @@ std::istream& operator >> (std::istream& in, TrajectoryStorage& ts) {
 TrajectoryStorage load(const std::string& filename) {
 	TrajectoryStorage storage;
 	
-	try {
-		std::ifstream istrm(filename, std::ios::binary);
-		istrm.exceptions(std::ios::failbit | std::ios::badbit);
+	std::ifstream istrm(filename, std::ios::binary);
+	if (!istrm.is_open()) {
+		std::cerr << "error: " << std::quoted(filename) << " is not opened\n";
+		return storage;
+	}
 
-		if (!istrm.is_open()) {
-			std::cout << "failed to open " << filename << '\n';
-		}
-		else {
-			istrm >> storage;
-		}
+	try {
+		istrm.exceptions(std::ios::failbit | std::ios::badbit | std::ios::eofbit);
+		istrm >> storage;
 	}
 	catch (const std::ios_base::failure&) {
-		storage.clear();//??
+		std::cerr << "error: " << std::quoted(filename) << " is corrupted\n";
+		storage.clear();
 	}
 
 	return storage;
@@ -113,9 +113,6 @@ TrajectoryStorage loadDB(const std::string& path) {
 			auto storage = load(file.path().string());
 			if (!storage.empty()) {
 				std::move(storage.begin(), storage.end(), std::back_inserter(db));
-			}
-			else {
-				std::cerr << "error: skip file " << std::quoted(file.path().string()) << "\n";
 			}
 		}
 
