@@ -33,14 +33,14 @@ int main(int argc, const char** argv)
 	const std::string refFileName = argv[3];
 	auto refs = load(refFileName);
 	if (refs.empty()) {
-		std::cerr << "ref file " << refFileName << " is empty or corrupted";
+		std::cerr << "reference file " << refFileName << " is empty or corrupted" << std::endl;
 		return 1;
 	}
 
 	const std::string dbFileName = argv[2];
 	auto db = loadDB(dbFileName);
 	if (db.empty()) {
-		std::cerr << "db '" << dbFileName << "' is empty or corrupted";
+		std::cerr << "db '" << dbFileName << "' is empty or corrupted" << std::endl;
 		return 1;
 	}
 
@@ -75,8 +75,10 @@ int main(int argc, const char** argv)
 
 		std::cout << "\t";
 		nicePrint(e.second->path());
-		std::cout << "\n\n";
+		std::cout << "\n";
 	}
+
+	std::cout << std::endl;
 
 	return 0;
 }
