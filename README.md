@@ -2,7 +2,7 @@
 
 ### Hints on how to build and run
 
-To (re)build the project from scratch run build.sh
+To (re)build the project from scratch run _build.sh_. You many need to ```chmod a+x *.sh``` before.
 
 Binaries are located in bin directory
 
