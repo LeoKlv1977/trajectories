@@ -104,10 +104,10 @@ TEST_CASE("test find in array with int metrics") {
 	CHECK(*view[1].second == 8);
 }
 
-TEST_CASE("test find in set with int metrics") {
+TEST_CASE_TEMPLATE("test find in containers", T, std::list<int>, std::vector<int>, std::deque<int>, std::set<int>) {
 	int x = 5;
 
-	std::set<int> list = { 1, 7, 8, 10, 45 };
+	T list = { 1, 7, 8, 10, 45 };
 	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
 
 	REQUIRE(view.size() == 2);
@@ -116,26 +116,3 @@ TEST_CASE("test find in set with int metrics") {
 	CHECK(*view[1].second == 8);
 }
 
-TEST_CASE("test find in deque with int metrics") {
-	int x = 5;
-
-	std::deque<int> list = { 1, 7, 8, 10, 45 };
-	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
-
-	REQUIRE(view.size() == 2);
-
-	CHECK(*view[0].second == 7);
-	CHECK(*view[1].second == 8);
-}
-
-TEST_CASE("test find in list with int metrics") {
-	int x = 5;
-
-	std::list<int> list = { 1, 7, 8, 10, 45 };
-	auto view = stats::topMatches(x, list, [](auto& t) { return t; }, 2);
-
-	REQUIRE(view.size() == 2);
-
-	CHECK(*view[0].second == 7);
-	CHECK(*view[1].second == 8);
-}
