@@ -16,6 +16,14 @@ run.sh: some examples how to run tracker, also there are examples with bad input
 
 The project is crossplatform, requires C++ 17 or higher. Build system is Cmake. To (re)build the project from scratch run build.sh.
 The code is covered by unitests that are implemented using doctest project. This is not what I use in real life, but I liked the idea to build tests using header file only.
+The structure looks like this:
+root
+    lib
+    utests
+    build
+    bin
+
+_lib_ is a static libray used in the _tracker_ and _utests_.
 
 The key class is Trajectory, where path of timepoints sorted by time is stored. It can also calculate metrics of the path: speed, length.
 Metrics are lazily calculated once, then they are cached. Note that in fact path is constant, so once created path can not be modified, so its metrics are also constant.
