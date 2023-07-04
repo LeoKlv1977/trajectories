@@ -22,7 +22,7 @@ Metrics are lazily calculated once, then they are cached. Note that in fact path
 
 Creation of new valid not empty Trajectory object can be done only by TrajectoryBuilder. Trajectory can be either valid or empty.
 
-Function **stats::topMatches**, that searches the closest matches, is located in _stats.h_. It finds _M_ closest entries among _N_ entries in a _container_. _Container_ is a generic iterable type which holds object of type similar to the type of _Reference_. Many STL containers like vector, list, set, deque, array are supported.
+Function **stats::topMatches**, that searches the closest matches, is located in _stats.h_. It finds _M_ closest entries among _N_ entries in a _container_. _Container_ is a generic iterable type which holds objects of type equal to the type of _Reference_. Many STL containers like vector, list, set, deque, array are supported.
 _Metrics type_ is any numeric type.
 Output type is _std::vector<std::pair<M, const T*>>_, where _M_ is a type of Metrics, _T_ is a type of _reference object_
 
